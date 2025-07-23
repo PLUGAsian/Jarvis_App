@@ -18,6 +18,7 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 //adjust values
 const r  = new SpeechRecognition();
 r.interimResults = true;
+r.continuous = true;
 
 let isRecording = false;
 let userWords;
@@ -25,8 +26,9 @@ let userArray = [];
 
 //I need to use await and async to make it so the recognizer finshes before sending the data to the python server
 //PROCESS:
-//Click button => start recording => wait for user to click button again => analyze speech => send data to server => 
-//wait for response => update html to display response
+//function 1: records the data and returns a promise of a userwords string
+//function 2: awaits promise of function 1 before executing to ensure there is data to send
+//function 3: the thing that adds the event listener and handlers
 
 function captureEvent(audioEvent){
     console.log("Recording started");
@@ -35,10 +37,12 @@ function captureEvent(audioEvent){
 }
 
 function captureEventWithInterim(audioEvent){
-    console.log("Recording started");
+    //note2self: using interim results will automatically stop the recognizer upon not hearing any speech
+    console.log("Chunk recorded");
     let chunk = audioEvent.results[0][0].transcript
     userBlock.textContent = chunk; //fix this this doesnt work... yet >:)
     userArray.push(chunk);
+    console.log(userArray);
 }
 
 function recordAndSend(){
@@ -50,19 +54,17 @@ function recordAndSend(){
         jarvisBlock.textContent = "Jarvis is listening...";
         r.start();
         mic_button.value = "Recording...";
-        r.addEventListener('result', captureEvent);
-        //userArray.join(" ");
-        //userWords = userArray;
+        r.addEventListener('result', captureEventWithInterim);
     }
-    else if(userWords !== undefined && userWords.legnth > 0){
+    else if(userArray.length > 0){
         //console.log("else if");
+        r.removeEventListener('result', captureEventWithInterim);
         mic_button.disabled = true;
-        mic_button.classList.remove("is_recording");
-        r.removeEventListener('result', captureEvent); 
+        mic_button.classList.remove("is_recording"); 
         r.stop();
         isRecording = false;
         //this part below needs to wait for the recognizer
-        let jsonData = JSON.stringify(userWords);
+        let jsonData = JSON.stringify(userArray[userArray.length - 1]);
         console.log("Data to send: " + jsonData);
         jarvisBlock.textContent = "Jarvis is thinking...";
         try {
@@ -88,7 +90,6 @@ function recordAndSend(){
         userArray = [];
     }
     else{
-        //console.log("Else")
         r.stop();
         isRecording = false;
         jarvisBlock.textContent = "Jarvis couldn't here you :(" + "\n Could you please try again?";
