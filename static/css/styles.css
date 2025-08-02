@@ -20,13 +20,42 @@ p{
 }
 
 .is_recording{
-    background-color: red;
-}
-
-input[type="button"]{
+    background-position: center;
+    background-image: url("Red_Mic_Button.png");
     margin-top: 10px;
     margin-bottom: 10px;
-    border: 2px solid black;
-    border-radius: 5px;
+    border: none;
+    border-radius: 50%;
+    width: 85px;
+    height: 85px;
     margin-left: 2.5%;
+    animation-name: hover;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+.not_recording{
+    background-position: center;
+    background-image: url("White_Mic_Button.png");
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 50%;
+    width: 85px;
+    height: 85px;
+    margin-left: 2.5%;
+}
+
+@keyframes hover {
+    0% {
+        transform: translateY(0px);
+    }
+
+   50% {
+        transform: translateY(-10px);
+   }
+
+    100% {
+        transform: translateY(0px);
+    }
 }

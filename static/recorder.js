@@ -49,18 +49,19 @@ function recordAndSend(){
     console.log("button pressed");
     if(!isRecording){
         mic_button.classList.add("is_recording");
+        mic_button.classList.remove("not_recording");
+        console.log("Mic button classList: " + mic_button.classList);
         //console.log("Recording");
         isRecording = true;
         jarvisBlock.textContent = "Jarvis is listening...";
         r.start();
-        mic_button.value = "Recording...";
         r.addEventListener('result', captureEventWithInterim);
     }
     else if(userArray.length > 0){
         //console.log("else if");
         r.removeEventListener('result', captureEventWithInterim);
         mic_button.disabled = true;
-        mic_button.classList.remove("is_recording"); 
+        console.log("Mic button classList: " + mic_button.classList);
         r.stop();
         isRecording = false;
         //this part below needs to wait for the recognizer
@@ -77,8 +78,11 @@ function recordAndSend(){
                 success: function(result){
                     console.log("Data received back");
                     jarvisBlock.textContent = "Jarvis says: " + result;
+                    mic_button.classList.remove("is_recording");
+                    mic_button.classList.add("not_recording");
+                    jarvisMessage = new SpeechSynthesisUtterance(result);
+                    window.speechSynthesis.speak(jarvisMessage);
                     mic_button.disabled = false;
-                    mic_button.value = "Click me!";
                 }
             });
         }
@@ -94,7 +98,7 @@ function recordAndSend(){
         isRecording = false;
         jarvisBlock.textContent = "Jarvis couldn't here you :(" + "\n Could you please try again?";
         mic_button.classList.remove("is_recording");
-        mic_button.value = "Click me!";
+        mic_button.classList.add("not_recording");
     }
 }
 
