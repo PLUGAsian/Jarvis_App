@@ -2,6 +2,9 @@
 #ALSO MAKE SURE TO ACTIVE VIRTUAL ENVIROMENT EVERY TIME YOU CLOSE
 #VSCODE
 #USE: source ollama_project_env/bin/activate
+#Also to commit: use git add . => git commit -m "message here or smthn :3"
+#To push changes to master: git push (use after the following command above)
+#TODO: Find out how to to but everything in my main branch
 from flask import Flask, request, render_template, url_for, jsonify, json
 import speech_recognition as sr
 import pyttsx3
@@ -19,8 +22,7 @@ def jarvis(text):
         messages=conversationHistory, 
         stream=False
     )
-    
-    fullResponse = ""
+
     """
     for chunk in stream:
         #you have to use chunk['message']['content'] and not stream because stream is not a string and is a series of dictionaries for each token(I think)
@@ -49,6 +51,13 @@ def jarvis_endpoint():
     print(data)
     return jsonify(jarvis(data))
     
+@app.route('/clear', methods=['GET'])
+def clear():
+    global conversationHistory
+    conversationHistory = []
+    return str("History cleared!")
+    
+
 if __name__ == "__main__":
     app.run(debug=True)
 
@@ -131,4 +140,6 @@ speech recognizer. I need to convert them to pcm via pydub
 
 2 - I have no clue if the files even contain audio as I have not been 
 able to listen to them yet.
+
+EDIT: fixed, fixed, and fixed. Also i moved on to a web app now :)
 """
