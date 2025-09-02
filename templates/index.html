@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
 {% block body %}
-  <h1>Jarvis App</h1>
+  <div id="intro"></div>
+    <h1>Hello!</h1>
 
-  <h2>Welcome!</h2>
+    <h2>This is Jarvis</h2>
+
+  </div>
 
   <p>Click the button to talk to Jarvis!</p>
 
@@ -18,7 +21,10 @@
 
   <section><h3>This website is a work in progress!</h3></section>
 
-  <button id="reset-chat">Clear conversation</button>
+  <div id="buttonHolder">
+    <button id="reset-chat">Clear conversation</button>
+    <button id="stop-talking">Stop voice</button>
+  </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="{{ url_for('static', filename='recorder.js') }}"></script>

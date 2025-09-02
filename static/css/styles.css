@@ -7,9 +7,18 @@ body{
     background-color: #F5F5F5; 
 }
 
-h1, h2, p, button{
+p, #buttonHolder{
+    margin-right: 2.5%;
     margin-left: 2.5%;
-    margin-left: 2.5%;
+}
+
+h1, h2{
+    text-align: center;
+    width: 100%;
+}
+
+h1{
+    font-size: 3em;
 }
 
 p{
@@ -31,7 +40,6 @@ p{
     border-radius: 50%;
     width: 85px;
     height: 85px;
-    margin-left: 2.5%;
     animation-name: hover;
     animation-duration: 2s;
     animation-iteration-count: infinite;

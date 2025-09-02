@@ -5,7 +5,7 @@
 #Also to commit: use git add . => git commit -m "message here or smthn :3"
 #To push changes to master: git push (use after the following command above)
 #TODO: Find out how to to but everything in my main branch
-from flask import Flask, request, render_template, url_for, jsonify, json
+from flask import Flask, request, render_template, jsonify, json
 import speech_recognition as sr
 import pyttsx3
 #from pyttsx3 import engine
